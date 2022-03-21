@@ -39,11 +39,13 @@
       in rec {
         packages = {
           cpuburn = makeCMakeBuild "cpuburn";
+          memorygrab = makeCMakeBuild "memorygrab";
         };
         defaultPackage = packages.cpuburn;
 
         devShells = {
-          application = packages.cpuburn;
+          cpuburn = packages.cpuburn;
+          memorygrab = packages.memorygrab;
           tools = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [
               gdb
@@ -51,6 +53,6 @@
             shellHook = "";
           };
         };
-        devShell = mergeEnvs pkgs [devShells.tools devShells.application];
+        devShell = mergeEnvs pkgs [devShells.tools devShells.cpuburn devShells.memorygrab];
       });
 }
